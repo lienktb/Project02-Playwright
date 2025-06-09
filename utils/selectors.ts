@@ -3,6 +3,8 @@ export const selectors = {
         title: ".title",
         productItem: ".inventory_item",
         productItemLink: ".inventory_item a",
+        productItemName: ".inventory_item_name",
+        productItemPrice: ".inventory_item_price"
     },
     LoginPage: {
         username: "#user-name",

@@ -9,9 +9,29 @@ export default class ProductsPage {
         expect(await this.page.locator(selectors.ProductsPage.title).innerText()).toBe(expectedText);
     }
 
-    getProductItem (productName: string) {
+    getProductItem(productName: string) {
         const productItem = this.page.locator(selectors.ProductsPage.productItem, { hasText: productName });
         return productItem;
+    }
+
+    async getAllProductName() {
+        const productList = await this.page.locator(selectors.ProductsPage.productItem).all();
+        const productNameList = await Promise.all(productList.map(async (productItem) => {
+            return await productItem.locator(selectors.ProductsPage.productItemName).innerText();
+        }))
+
+        return productNameList;
+    }
+
+    async getAllProductPrice() {
+        const productList = await this.page.locator(selectors.ProductsPage.productItem).all();
+        const productPriceList = await Promise.all(productList.map(async (productItem) => {
+            const priceText = await productItem.locator(selectors.ProductsPage.productItemPrice).innerText();
+            return parseFloat(priceText.replace("$", ""));
+        }))
+
+        console.log(productPriceList);
+        return productPriceList;
     }
 
     async clickProductItemLink(productName: string) {
